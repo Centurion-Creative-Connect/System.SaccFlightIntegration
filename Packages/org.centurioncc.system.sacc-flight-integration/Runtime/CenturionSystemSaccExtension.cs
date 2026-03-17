@@ -1,14 +1,17 @@
 ﻿using CenturionCC.System.Player;
+using CenturionCC.System.Utils;
 using DerpyNewbie.Common;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 
 [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
-public class CenturionSystemSaccExtension : UdonSharpBehaviour
+public class CenturionSystemSaccExtension : ObjectMarkerBase
 {
     [SerializeField] [NewbieInject]
     private PlayerManagerBase playerManager;
+    [SerializeField] [NewbieInject]
+    private PlayerController playerController;
 
     private void RefreshPlayers()
     {
@@ -22,6 +25,18 @@ public class CenturionSystemSaccExtension : UdonSharpBehaviour
 
             var isInVehicle = player.VrcPlayer.GetPlayerTag("SF_InVehicle") == "T";
             player.SetCollidersActive(!isInVehicle);
+
+            if (player.IsLocal)
+            {
+                if (isInVehicle)
+                {
+                    playerController.AddHoldingObject(this);
+                }
+                else
+                {
+                    playerController.RemoveHoldingObject(this);
+                }
+            }
         }
     }
 
@@ -74,4 +89,9 @@ public class CenturionSystemSaccExtension : UdonSharpBehaviour
         RefreshPlayers();
     }
     #endregion
+
+    public override ObjectType ObjectType => ObjectType.Prototype;
+    public override float ObjectWeight => 0;
+    public override float WalkingSpeedMultiplier => 1;
+    public override string[] Tags => new[] { "NoFootstep" };
 }
