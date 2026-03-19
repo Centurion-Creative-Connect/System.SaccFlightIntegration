@@ -1,6 +1,6 @@
 {
   "name": "org.centurioncc.system.sacc-flight-integration",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "displayName": "Centurion System Sacc Flight Integration",
   "description": "Integrate Sacc Flight with Centurion System",
   "unity": "2022.3",
