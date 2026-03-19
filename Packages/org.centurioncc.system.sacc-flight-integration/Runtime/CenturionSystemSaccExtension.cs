@@ -30,11 +30,17 @@ public class CenturionSystemSaccExtension : ObjectMarkerBase
             {
                 if (isInVehicle)
                 {
-                    playerController.AddHoldingObject(this);
+                    if (!playerController.HasMarker(this))
+                    {
+                        playerController.AddMarker(this);
+                    }
                 }
                 else
                 {
-                    playerController.RemoveHoldingObject(this);
+                    if (playerController.HasMarker(this))
+                    {
+                        playerController.RemoveMarker(this);
+                    }
                 }
             }
         }
